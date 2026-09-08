@@ -2,31 +2,37 @@
 
 import { useState } from "react";
 
-// TEMPORARY PLACEHOLDER FIELDS + FORMULA
-// -----------------------------------------------------------------------
-// These fields and the calculate() formula below are placeholders so the
-// UI can be seen working end-to-end. Once the real textile formula and
-// input fields (with their Urdu labels) are provided, this section gets
-// swapped out — the rest of the page (layout, styling, RTL/LTR handling)
-// stays the same.
-// -----------------------------------------------------------------------
+// Cloth cost formula:
+// Result = Reed + Pick + Reed Parti * Arz / 20 / Count * 1.0936 / Dhaga Rate / 40
 
-type FieldKey = "fieldA" | "fieldB";
+type FieldKey = "reed" | "pick" | "reedParti" | "arz" | "count" | "dhagaRate";
 
-const fields: { key: FieldKey; labelUrdu: string; labelEnglish: string; unit: string }[] = [
-  { key: "fieldA", labelUrdu: "قدر اول", labelEnglish: "Value A", unit: "" },
-  { key: "fieldB", labelUrdu: "قدر دوم", labelEnglish: "Value B", unit: "" },
+const fields: { key: FieldKey; labelUrdu: string; labelEnglish: string }[] = [
+  { key: "reed", labelUrdu: "ریڈ", labelEnglish: "Reed" },
+  { key: "pick", labelUrdu: "پک", labelEnglish: "Pick" },
+  { key: "reedParti", labelUrdu: "ریڈ پارٹی", labelEnglish: "Reed Parti" },
+  { key: "arz", labelUrdu: "عرض", labelEnglish: "Arz" },
+  { key: "count", labelUrdu: "کاؤنٹ", labelEnglish: "Count" },
+  { key: "dhagaRate", labelUrdu: "دھاگے کا ریٹ", labelEnglish: "Dhaga Rate" },
 ];
 
 function calculate(values: Record<FieldKey, number>): number {
-  // Placeholder formula: replace with the real textile calculation.
-  return values.fieldA * values.fieldB;
+  const { reed, pick, reedParti, arz, count, dhagaRate } = values;
+  return (
+    reed +
+    pick +
+    (reedParti * arz) / 20 / count * 1.0936 / dhagaRate / 40
+  );
 }
 
 export default function Home() {
   const [values, setValues] = useState<Record<FieldKey, number>>({
-    fieldA: 0,
-    fieldB: 0,
+    reed: 0,
+    pick: 0,
+    reedParti: 0,
+    arz: 0,
+    count: 0,
+    dhagaRate: 0,
   });
   const [result, setResult] = useState<number | null>(null);
 
@@ -49,7 +55,7 @@ export default function Home() {
           ٹیکسٹائل کیلکولیٹر
         </h1>
         <p className="text-center text-sm text-slate-500 mb-8">
-          Textile Calculator (placeholder — formula coming soon)
+          Textile Calculator
         </p>
 
         <div className="space-y-5">
@@ -103,7 +109,7 @@ export default function Home() {
               نتیجہ
             </div>
             <div className="text-2xl font-semibold text-slate-900">
-              {result}
+              {Number.isFinite(result) ? result.toFixed(2) : "—"}
             </div>
           </div>
         )}
