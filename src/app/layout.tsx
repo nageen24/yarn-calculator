@@ -19,8 +19,8 @@ const notoNastaliqUrdu = Noto_Nastaliq_Urdu({
 });
 
 export const metadata: Metadata = {
-  title: "ٹیکسٹائل کیلکولیٹر",
-  description: "Textile calculator with Urdu input labels",
+  title: "Yarn Calculator",
+  description: "Yarn calculator with Urdu input labels",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
@@ -29,7 +29,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} ${notoNastaliqUrdu.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-slate-50 text-slate-900">
+      <body className="min-h-full flex flex-col bg-gradient-to-b from-indigo-50 via-white to-white text-slate-900">
         {children}
       </body>
     </html>
