@@ -11,7 +11,7 @@ const fields: { key: FieldKey; labelUrdu: string; labelEnglish: string }[] = [
   { key: "reed", labelUrdu: "ریڈ", labelEnglish: "Reed" },
   { key: "pick", labelUrdu: "پک", labelEnglish: "Pick" },
   { key: "reedParti", labelUrdu: "ریڈ پرتی", labelEnglish: "Reed Parti" },
-  { key: "arz", labelUrdu: "عرض", labelEnglish: "Arz" },
+  { key: "arz", labelUrdu: "عرض", labelEnglish: "Width" },
   { key: "count", labelUrdu: "کاؤنٹ", labelEnglish: "Count" },
   { key: "dhagaRate", labelUrdu: "دھاگے کا ریٹ", labelEnglish: "Dhaga Rate" },
 ];
