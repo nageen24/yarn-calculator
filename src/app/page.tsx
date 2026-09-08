@@ -3,7 +3,7 @@
 import { useState } from "react";
 
 // Cloth cost formula:
-// Result = Reed + Pick + Reed Parti * Arz / 20 / Count * 1.0936 / Dhaga Rate / 40
+// Result = Reed + Pick + Reed Parti * Arz / 20 / Count * 1.0936 * Dhaga Rate / 40
 
 type FieldKey = "reed" | "pick" | "reedParti" | "arz" | "count" | "dhagaRate";
 
@@ -21,7 +21,7 @@ function calculate(values: Record<FieldKey, number>): number {
   return (
     reed +
     pick +
-    (reedParti * arz) / 20 / count * 1.0936 / dhagaRate / 40
+    (reedParti * arz) / 20 / count * 1.0936 * dhagaRate / 40
   );
 }
 
