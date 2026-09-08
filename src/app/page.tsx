@@ -10,7 +10,7 @@ type FieldKey = "reed" | "pick" | "reedParti" | "arz" | "count" | "dhagaRate";
 const fields: { key: FieldKey; labelUrdu: string; labelEnglish: string }[] = [
   { key: "reed", labelUrdu: "ریڈ", labelEnglish: "Reed" },
   { key: "pick", labelUrdu: "پک", labelEnglish: "Pick" },
-  { key: "reedParti", labelUrdu: "ریڈ پارٹی", labelEnglish: "Reed Parti" },
+  { key: "reedParti", labelUrdu: "ریڈ پرٹی", labelEnglish: "Reed Parti" },
   { key: "arz", labelUrdu: "عرض", labelEnglish: "Arz" },
   { key: "count", labelUrdu: "کاؤنٹ", labelEnglish: "Count" },
   { key: "dhagaRate", labelUrdu: "دھاگے کا ریٹ", labelEnglish: "Dhaga Rate" },
