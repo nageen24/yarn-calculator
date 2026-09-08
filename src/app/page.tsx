@@ -111,15 +111,18 @@ export default function Home() {
             </button>
 
             {result !== null && (
-              <div className="mt-2 rounded-xl bg-indigo-50 ring-1 ring-indigo-100 p-5 text-center">
+              <div className="relative mt-2 overflow-hidden rounded-2xl bg-gradient-to-br from-indigo-600 via-indigo-600 to-purple-600 p-6 text-center shadow-lg shadow-indigo-200">
+                <div className="pointer-events-none absolute -top-8 -right-8 h-28 w-28 rounded-full bg-white/10" />
+                <div className="pointer-events-none absolute -bottom-10 -left-6 h-24 w-24 rounded-full bg-white/10" />
+
                 <div
                   dir="rtl"
-                  className="text-base font-bold text-black mb-1"
+                  className="relative mb-2 text-sm font-bold uppercase tracking-wide text-indigo-100"
                   style={{ fontFamily: "var(--font-urdu)" }}
                 >
                   نتیجہ
                 </div>
-                <div className="text-3xl font-extrabold text-black">
+                <div className="relative text-5xl font-extrabold tracking-tight text-white drop-shadow-sm">
                   {Number.isFinite(result) ? result.toFixed(2) : "—"}
                 </div>
               </div>
