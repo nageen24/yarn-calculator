@@ -2,9 +2,9 @@
 
 import { useState } from "react";
 
-// 3-step chained formula:
+// 3-step chained formula (left-to-right, calculator-style — not BODMAS):
 // Step 1: Taar        = Arz * Reed
-// Step 2: Yarn Weight  = (Pick * Arz + Taar * 1.0936) / (20 * Count * 40)   [in Pound]
+// Step 2: Yarn Weight  = (Pick * Arz + Taar) * 1.0936 / (20 * Count * 40)   [in Pound]
 // Step 3: Dhaga Rate   = Yarn Weight * (1 Pound Dhaga Rate)                 [final answer]
 
 type FieldKey = "arz" | "reed" | "pick" | "count" | "onePoundDhagaRate";
@@ -27,7 +27,7 @@ function calculate(values: Record<FieldKey, number>): CalcResult {
   const { arz, reed, pick, count, onePoundDhagaRate } = values;
 
   const taar = arz * reed;
-  const yarnWeight = (pick * arz + taar * 1.0936) / (20 * count * 40);
+  const yarnWeight = ((pick * arz + taar) * 1.0936) / (20 * count * 40);
   const dhagaRate = yarnWeight * onePoundDhagaRate;
 
   return { taar, yarnWeight, dhagaRate };

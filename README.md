@@ -4,12 +4,13 @@ A yarn/cloth cost calculator with an Urdu-labeled input form. Built with Next.js
 
 ## Formula
 
-A 3-step chained calculation — each step's result feeds into the next:
+A 3-step chained calculation — each step's result feeds into the next.
+Evaluated **left-to-right, calculator-style (not BODMAS)**:
 
 ```
 Step 1 — Taar        = Arz × Reed
 
-Step 2 — Yarn Weight = (Pick × Arz + Taar × 1.0936) / (20 × Count × 40)
+Step 2 — Yarn Weight = (Pick × Arz + Taar) × 1.0936 / (20 × Count × 40)
                         → in Pound
 
 Step 3 — Dhaga Rate  = Yarn Weight × (1 Pound Dhaga Rate)
