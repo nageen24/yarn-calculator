@@ -37,18 +37,25 @@ function fmt(n: number): string {
   return Number.isFinite(n) ? n.toFixed(2) : "—";
 }
 
+const initialValues: Record<FieldKey, number> = {
+  arz: 0,
+  reed: 0,
+  pick: 0,
+  count: 0,
+  onePoundDhagaRate: 0,
+};
+
 export default function Home() {
-  const [values, setValues] = useState<Record<FieldKey, number>>({
-    arz: 0,
-    reed: 0,
-    pick: 0,
-    count: 0,
-    onePoundDhagaRate: 0,
-  });
+  const [values, setValues] = useState<Record<FieldKey, number>>(initialValues);
   const [result, setResult] = useState<CalcResult | null>(null);
 
   function handleChange(key: FieldKey, raw: string) {
     setValues((prev) => ({ ...prev, [key]: Number(raw) }));
+  }
+
+  function handleClear() {
+    setValues(initialValues);
+    setResult(null);
   }
 
   function handleCalculate() {
@@ -123,6 +130,26 @@ export default function Home() {
 
             {result !== null && (
               <div className="mt-2 space-y-3">
+                <div className="flex items-center justify-between">
+                  <span
+                    dir="rtl"
+                    className="text-sm font-bold uppercase tracking-wide text-slate-400"
+                    style={{ fontFamily: "var(--font-urdu)" }}
+                  >
+                    نتائج
+                  </span>
+                  <button
+                    onClick={handleClear}
+                    className="flex items-center gap-1.5 rounded-full border border-slate-300 bg-white px-3 py-1 text-xs font-semibold text-slate-500 transition-colors hover:border-red-300 hover:bg-red-50 hover:text-red-500"
+                  >
+                    <span aria-hidden>↺</span>
+                    <span dir="rtl" style={{ fontFamily: "var(--font-urdu)" }}>
+                      صاف کریں
+                    </span>
+                    <span className="text-slate-400">Clear</span>
+                  </button>
+                </div>
+
                 <div className="flex items-center justify-between rounded-2xl bg-white ring-2 ring-slate-200 px-6 py-4">
                   <span
                     dir="rtl"
