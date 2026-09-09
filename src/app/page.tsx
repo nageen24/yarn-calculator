@@ -134,24 +134,13 @@ export default function Home() {
 
             {result !== null && (
               <div className="!mt-6 space-y-4 animate-[fadeIn_0.25s_ease-out]">
-                <div className="flex items-center justify-between">
-                  <span
-                    dir="rtl"
-                    className="text-[11px] font-bold uppercase tracking-[0.2em] text-neutral-400"
-                    style={{ fontFamily: "var(--font-urdu)" }}
-                  >
-                    نتائج
-                  </span>
-                  <button
-                    onClick={handleClear}
-                    className="flex items-center gap-1 rounded-full px-2.5 py-1 text-[11px] font-bold text-neutral-400 transition-colors hover:bg-red-50 hover:text-red-500"
-                  >
-                    <span aria-hidden>↺</span>
-                    <span dir="rtl" style={{ fontFamily: "var(--font-urdu)" }}>
-                      صاف کریں
-                    </span>
-                  </button>
-                </div>
+                <span
+                  dir="rtl"
+                  className="block text-[11px] font-bold uppercase tracking-[0.2em] text-neutral-400"
+                  style={{ fontFamily: "var(--font-urdu)" }}
+                >
+                  نتائج
+                </span>
 
                 {/* Intermediate steps — receipt style */}
                 <div className="rounded-2xl bg-neutral-50 px-5 py-1 ring-1 ring-neutral-100">
@@ -202,6 +191,17 @@ export default function Home() {
                     </span>
                   </div>
                 </div>
+
+                <button
+                  onClick={handleClear}
+                  className="flex w-full items-center justify-center gap-2 rounded-2xl border border-neutral-200 py-3 text-sm font-bold text-neutral-500 transition-colors hover:border-red-200 hover:bg-red-50 hover:text-red-500"
+                >
+                  <span aria-hidden className="text-base">↺</span>
+                  <span dir="rtl" style={{ fontFamily: "var(--font-urdu)" }}>
+                    صاف کریں
+                  </span>
+                  <span className="text-neutral-400">Clear</span>
+                </button>
               </div>
             )}
           </div>
