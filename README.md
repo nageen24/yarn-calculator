@@ -4,24 +4,37 @@ A yarn/cloth cost calculator with an Urdu-labeled input form. Built with Next.js
 
 ## Formula
 
+A 3-step chained calculation — each step's result feeds into the next:
+
 ```
-Result = Reed + Pick + Reed Parti × Arz ÷ 20 ÷ Count × 1.0936 × Dhaga Rate ÷ 40
+Step 1 — Taar        = Arz × Reed
+
+Step 2 — Yarn Weight = (Pick × Arz + Taar × 1.0936) / (20 × Count × 40)
+                        → in Pound
+
+Step 3 — Dhaga Rate  = Yarn Weight × (1 Pound Dhaga Rate)
+                        → final answer
 ```
 
-Standard math order of operations applies (× and ÷ before +, evaluated left to right).
-
-### Inputs
+### Inputs (shown on the UI in this order)
 
 | Field | Urdu Label |
 |---|---|
+| Arz (Width) | عرض |
 | Reed | ریڈ |
 | Pick | پک |
-| Reed Parti | ریڈ پرتی |
-| Arz (Width) | عرض |
 | Count | کاؤنٹ |
-| Dhaga Rate | دھاگے کا ریٹ |
+| 1 Pound Dhaga Rate | 1 پاؤنڈ دھاگے کا ریٹ |
 
-The Urdu text is display-only — internally, each field is stored under a plain English key (`reed`, `pick`, `reedParti`, `arz`, `count`, `dhagaRate`) that the formula operates on directly, regardless of the language shown on screen.
+### Outputs (all 3 shown on the UI)
+
+| Result | Urdu Label |
+|---|---|
+| Taar | تار |
+| Yarn Weight (Pound) | دھاگے کا وزن |
+| Dhaga Rate (final) | دھاگے کا ریٹ |
+
+The Urdu text is display-only — internally, each field/result is stored under a plain English key (`arz`, `reed`, `pick`, `count`, `onePoundDhagaRate`, `taar`, `yarnWeight`, `dhagaRate`) that the formula operates on directly, regardless of the language shown on screen.
 
 ## Tech Stack
 

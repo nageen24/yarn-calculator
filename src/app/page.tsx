@@ -2,39 +2,50 @@
 
 import { useState } from "react";
 
-// Cloth cost formula:
-// Result = Reed + Pick + Reed Parti * Arz / 20 / Count * 1.0936 * Dhaga Rate / 40
+// 3-step chained formula:
+// Step 1: Taar        = Arz * Reed
+// Step 2: Yarn Weight  = (Pick * Arz + Taar * 1.0936) / (20 * Count * 40)   [in Pound]
+// Step 3: Dhaga Rate   = Yarn Weight * (1 Pound Dhaga Rate)                 [final answer]
 
-type FieldKey = "reed" | "pick" | "reedParti" | "arz" | "count" | "dhagaRate";
+type FieldKey = "arz" | "reed" | "pick" | "count" | "onePoundDhagaRate";
 
 const fields: { key: FieldKey; labelUrdu: string; labelEnglish: string }[] = [
+  { key: "arz", labelUrdu: "عرض", labelEnglish: "Width" },
   { key: "reed", labelUrdu: "ریڈ", labelEnglish: "Reed" },
   { key: "pick", labelUrdu: "پک", labelEnglish: "Pick" },
-  { key: "reedParti", labelUrdu: "ریڈ پرتی", labelEnglish: "Reed Parti" },
-  { key: "arz", labelUrdu: "عرض", labelEnglish: "Width" },
   { key: "count", labelUrdu: "کاؤنٹ", labelEnglish: "Count" },
-  { key: "dhagaRate", labelUrdu: "دھاگے کا ریٹ", labelEnglish: "Dhaga Rate" },
+  { key: "onePoundDhagaRate", labelUrdu: "1 پاؤنڈ دھاگے کا ریٹ", labelEnglish: "1 Pound Dhaga Rate" },
 ];
 
-function calculate(values: Record<FieldKey, number>): number {
-  const { reed, pick, reedParti, arz, count, dhagaRate } = values;
-  return (
-    reed +
-    pick +
-    (reedParti * arz) / 20 / count * 1.0936 * dhagaRate / 40
-  );
+type CalcResult = {
+  taar: number;
+  yarnWeight: number;
+  dhagaRate: number;
+};
+
+function calculate(values: Record<FieldKey, number>): CalcResult {
+  const { arz, reed, pick, count, onePoundDhagaRate } = values;
+
+  const taar = arz * reed;
+  const yarnWeight = (pick * arz + taar * 1.0936) / (20 * count * 40);
+  const dhagaRate = yarnWeight * onePoundDhagaRate;
+
+  return { taar, yarnWeight, dhagaRate };
+}
+
+function fmt(n: number): string {
+  return Number.isFinite(n) ? n.toFixed(2) : "—";
 }
 
 export default function Home() {
   const [values, setValues] = useState<Record<FieldKey, number>>({
+    arz: 0,
     reed: 0,
     pick: 0,
-    reedParti: 0,
-    arz: 0,
     count: 0,
-    dhagaRate: 0,
+    onePoundDhagaRate: 0,
   });
-  const [result, setResult] = useState<number | null>(null);
+  const [result, setResult] = useState<CalcResult | null>(null);
 
   function handleChange(key: FieldKey, raw: string) {
     setValues((prev) => ({ ...prev, [key]: Number(raw) }));
@@ -111,17 +122,46 @@ export default function Home() {
             </button>
 
             {result !== null && (
-              <div className="mt-2 flex items-center justify-between rounded-2xl bg-white ring-2 ring-indigo-100 px-6 py-4">
-                <span
-                  dir="rtl"
-                  className="text-lg font-bold text-black"
-                  style={{ fontFamily: "var(--font-urdu)" }}
-                >
-                  نتیجہ
-                </span>
-                <span className="text-3xl font-extrabold text-black">
-                  {Number.isFinite(result) ? result.toFixed(2) : "—"}
-                </span>
+              <div className="mt-2 space-y-3">
+                <div className="flex items-center justify-between rounded-2xl bg-white ring-2 ring-slate-200 px-6 py-4">
+                  <span
+                    dir="rtl"
+                    className="text-lg font-bold text-black"
+                    style={{ fontFamily: "var(--font-urdu)" }}
+                  >
+                    تار
+                  </span>
+                  <span className="text-2xl font-extrabold text-black">
+                    {fmt(result.taar)}
+                  </span>
+                </div>
+
+                <div className="flex items-center justify-between rounded-2xl bg-white ring-2 ring-slate-200 px-6 py-4">
+                  <span
+                    dir="rtl"
+                    className="text-lg font-bold text-black"
+                    style={{ fontFamily: "var(--font-urdu)" }}
+                  >
+                    دھاگے کا وزن
+                  </span>
+                  <span className="text-2xl font-extrabold text-black">
+                    {fmt(result.yarnWeight)}{" "}
+                    <span className="text-base font-semibold text-slate-500">Pound</span>
+                  </span>
+                </div>
+
+                <div className="flex items-center justify-between rounded-2xl bg-white ring-2 ring-indigo-100 px-6 py-4">
+                  <span
+                    dir="rtl"
+                    className="text-lg font-bold text-black"
+                    style={{ fontFamily: "var(--font-urdu)" }}
+                  >
+                    دھاگے کا ریٹ
+                  </span>
+                  <span className="text-3xl font-extrabold text-black">
+                    {fmt(result.dhagaRate)}
+                  </span>
+                </div>
               </div>
             )}
           </div>
