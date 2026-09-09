@@ -63,42 +63,46 @@ export default function Home() {
   }
 
   return (
-    <main className="flex-1 flex items-center justify-center p-6">
-      <div className="w-full max-w-md">
-        <div className="bg-white rounded-3xl shadow-xl shadow-indigo-100 ring-1 ring-slate-200 overflow-hidden">
+    <main className="flex-1 flex items-center justify-center p-4 sm:p-6">
+      <div className="w-full max-w-sm">
+        <div className="rounded-[28px] bg-white shadow-xl shadow-neutral-900/5 ring-1 ring-neutral-200/80">
           {/* Header */}
-          <div className="bg-gradient-to-r from-indigo-600 to-indigo-500 px-8 pt-8 pb-6 text-center">
-            <div className="text-3xl mb-2">🧵</div>
+          <div className="flex flex-col items-center px-8 pt-9 pb-7">
+            <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-amber-50 text-2xl ring-1 ring-amber-100">
+              🧵
+            </div>
             <h1
               dir="rtl"
-              className="text-2xl font-bold text-white mb-1"
+              className="text-[1.7rem] font-extrabold leading-tight text-neutral-900"
               style={{ fontFamily: "var(--font-urdu)" }}
             >
               دھاگے کا کیلکولیٹر
             </h1>
-            <p className="text-sm font-semibold tracking-wide text-indigo-100 uppercase">
+            <p className="mt-1 text-[11px] font-bold uppercase tracking-[0.2em] text-amber-600">
               Yarn Calculator
             </p>
           </div>
 
+          <div className="h-px bg-neutral-100" />
+
           {/* Form */}
-          <div className="px-8 py-7 space-y-5">
+          <div className="px-8 pt-6 pb-8 space-y-4">
             {fields.map((field) => (
               <div key={field.key}>
                 <label
                   dir="rtl"
                   htmlFor={field.key}
-                  className="flex items-baseline justify-between mb-1.5"
+                  className="mb-1.5 flex items-baseline justify-between"
                 >
                   <span
-                    className="text-lg font-bold text-black"
+                    className="text-[1.05rem] font-bold text-neutral-900"
                     style={{ fontFamily: "var(--font-urdu)" }}
                   >
                     {field.labelUrdu}
                   </span>
                   <span
                     dir="ltr"
-                    className="text-xs font-semibold uppercase tracking-wide text-slate-400"
+                    className="text-[10px] font-bold uppercase tracking-wider text-neutral-400"
                   >
                     {field.labelEnglish}
                   </span>
@@ -110,7 +114,7 @@ export default function Home() {
                   inputMode="decimal"
                   value={values[field.key] || ""}
                   onChange={(e) => handleChange(field.key, e.target.value)}
-                  className="w-full rounded-xl border-2 border-slate-200 bg-slate-50 px-4 py-3 text-lg font-bold text-black placeholder-slate-400 outline-none transition-colors focus:border-indigo-500 focus:bg-white"
+                  className="w-full rounded-2xl border border-neutral-200 bg-neutral-50 px-4 py-3 text-lg font-bold text-neutral-900 placeholder-neutral-300 outline-none transition-all focus:border-amber-500 focus:bg-white focus:ring-4 focus:ring-amber-500/10"
                   placeholder="0"
                 />
               </div>
@@ -118,83 +122,85 @@ export default function Home() {
 
             <button
               onClick={handleCalculate}
-              className="mt-2 w-full rounded-xl bg-gradient-to-r from-indigo-600 to-indigo-500 py-3.5 font-bold text-white shadow-lg shadow-indigo-200 transition-transform hover:scale-[1.02] hover:shadow-indigo-300 active:scale-[0.99]"
+              className="!mt-6 w-full rounded-2xl bg-neutral-900 py-4 font-bold text-white shadow-lg shadow-neutral-900/15 transition-all hover:bg-neutral-800 active:scale-[0.98]"
             >
               <span dir="rtl" className="text-lg" style={{ fontFamily: "var(--font-urdu)" }}>
                 حساب کریں
               </span>
-              <span className="ms-2 text-sm font-semibold text-indigo-100">
+              <span className="ms-2 text-sm font-semibold text-neutral-400">
                 Calculate
               </span>
             </button>
 
             {result !== null && (
-              <div className="mt-2 space-y-3">
+              <div className="!mt-6 space-y-4 animate-[fadeIn_0.25s_ease-out]">
                 <div className="flex items-center justify-between">
                   <span
                     dir="rtl"
-                    className="text-sm font-bold uppercase tracking-wide text-slate-400"
+                    className="text-[11px] font-bold uppercase tracking-[0.2em] text-neutral-400"
                     style={{ fontFamily: "var(--font-urdu)" }}
                   >
                     نتائج
                   </span>
                   <button
                     onClick={handleClear}
-                    className="flex items-center gap-1.5 rounded-full border border-slate-300 bg-white px-3 py-1 text-xs font-semibold text-slate-500 transition-colors hover:border-red-300 hover:bg-red-50 hover:text-red-500"
+                    className="flex items-center gap-1 rounded-full px-2.5 py-1 text-[11px] font-bold text-neutral-400 transition-colors hover:bg-red-50 hover:text-red-500"
                   >
                     <span aria-hidden>↺</span>
                     <span dir="rtl" style={{ fontFamily: "var(--font-urdu)" }}>
                       صاف کریں
                     </span>
-                    <span className="text-slate-400">Clear</span>
                   </button>
                 </div>
 
-                <div className="flex items-center justify-between rounded-2xl bg-white ring-2 ring-slate-200 px-6 py-4">
-                  <span
-                    dir="rtl"
-                    className="text-lg font-bold text-black"
-                    style={{ fontFamily: "var(--font-urdu)" }}
-                  >
-                    تار
-                  </span>
-                  <span className="text-2xl font-extrabold text-black">
-                    {fmt(result.taar)}
-                  </span>
+                {/* Intermediate steps — receipt style */}
+                <div className="rounded-2xl bg-neutral-50 px-5 py-1 ring-1 ring-neutral-100">
+                  <div className="flex items-center justify-between border-b border-dashed border-neutral-200 py-3">
+                    <span
+                      dir="rtl"
+                      className="text-sm font-bold text-neutral-500"
+                      style={{ fontFamily: "var(--font-urdu)" }}
+                    >
+                      تار
+                    </span>
+                    <span className="text-base font-bold text-neutral-700">
+                      {fmt(result.taar)}
+                    </span>
+                  </div>
+                  <div className="flex items-center justify-between py-3">
+                    <span
+                      dir="rtl"
+                      className="text-sm font-bold text-neutral-500"
+                      style={{ fontFamily: "var(--font-urdu)" }}
+                    >
+                      دھاگے کا وزن
+                    </span>
+                    <span className="text-base font-bold text-neutral-700">
+                      {fmt(result.yarnWeight)}{" "}
+                      <span className="text-xs font-semibold text-neutral-400">Pound</span>
+                    </span>
+                  </div>
                 </div>
 
-                <div className="flex items-center justify-between rounded-2xl bg-white ring-2 ring-slate-200 px-6 py-4">
-                  <span
+                {/* Final answer — hero card */}
+                <div className="rounded-2xl bg-neutral-900 px-6 py-5 text-center shadow-lg shadow-neutral-900/20">
+                  <div
                     dir="rtl"
-                    className="text-lg font-bold text-black"
-                    style={{ fontFamily: "var(--font-urdu)" }}
-                  >
-                    دھاگے کا وزن
-                  </span>
-                  <span className="text-2xl font-extrabold text-black">
-                    {fmt(result.yarnWeight)}{" "}
-                    <span className="text-base font-semibold text-slate-500">Pound</span>
-                  </span>
-                </div>
-
-                <div className="flex items-center justify-between rounded-2xl bg-white ring-2 ring-indigo-100 px-6 py-4">
-                  <span
-                    dir="rtl"
-                    className="text-lg font-bold text-black"
+                    className="mb-1.5 text-[11px] font-bold uppercase tracking-[0.2em] text-amber-400"
                     style={{ fontFamily: "var(--font-urdu)" }}
                   >
                     دھاگے کا ریٹ
-                  </span>
-                  <span className="text-3xl font-extrabold text-black">
+                  </div>
+                  <div className="text-4xl font-extrabold tracking-tight text-white">
                     {fmt(result.dhagaRate)}{" "}
                     <span
                       dir="rtl"
-                      className="text-base font-semibold text-slate-500"
+                      className="text-lg font-semibold text-neutral-400"
                       style={{ fontFamily: "var(--font-urdu)" }}
                     >
                       روپے
                     </span>
-                  </span>
+                  </div>
                 </div>
               </div>
             )}
