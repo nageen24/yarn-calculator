@@ -159,7 +159,14 @@ export default function Home() {
                     دھاگے کا ریٹ
                   </span>
                   <span className="text-3xl font-extrabold text-black">
-                    {fmt(result.dhagaRate)}
+                    {fmt(result.dhagaRate)}{" "}
+                    <span
+                      dir="rtl"
+                      className="text-base font-semibold text-slate-500"
+                      style={{ fontFamily: "var(--font-urdu)" }}
+                    >
+                      روپے
+                    </span>
                   </span>
                 </div>
               </div>
