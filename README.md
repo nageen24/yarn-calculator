@@ -8,7 +8,7 @@ A 3-step chained calculation — each step's result feeds into the next.
 Evaluated **left-to-right, calculator-style (not BODMAS)**:
 
 ```
-Step 1 — Taar        = Reed × Arz + Reed Taar Parti
+Step 1 — Taar        = Reed × (Arz + Reed Taar Parti)
 
 Step 2 — Yarn Weight = (Pick × Arz + Taar) × 1.0936 / (20 × Count × 40)
                         → in Pound

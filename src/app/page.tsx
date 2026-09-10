@@ -3,7 +3,7 @@
 import { useState } from "react";
 
 // 3-step chained formula (left-to-right, calculator-style — not BODMAS):
-// Step 1: Taar        = Reed * Arz + Reed Taar Parti
+// Step 1: Taar        = Reed * (Arz + Reed Taar Parti)
 // Step 2: Yarn Weight  = (Pick * Arz + Taar) * 1.0936 / (20 * Count * 40)   [in Pound]
 // Step 3: Dhaga Rate   = Yarn Weight * (1 Pound Dhaga Rate)                 [final answer]
 
@@ -33,7 +33,7 @@ type CalcResult = {
 function calculate(values: Record<FieldKey, number>): CalcResult {
   const { arz, reed, reedTaarParti, pick, count, onePoundDhagaRate } = values;
 
-  const taar = reed * arz + reedTaarParti;
+  const taar = reed * (arz + reedTaarParti);
   const yarnWeight = ((pick * arz + taar) * 1.0936) / (20 * count * 40);
   const dhagaRate = yarnWeight * onePoundDhagaRate;
 
