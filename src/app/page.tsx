@@ -3,15 +3,22 @@
 import { useState } from "react";
 
 // 3-step chained formula (left-to-right, calculator-style — not BODMAS):
-// Step 1: Taar        = Arz * Reed
+// Step 1: Taar        = Reed * Arz + Reed Taar Parti
 // Step 2: Yarn Weight  = (Pick * Arz + Taar) * 1.0936 / (20 * Count * 40)   [in Pound]
 // Step 3: Dhaga Rate   = Yarn Weight * (1 Pound Dhaga Rate)                 [final answer]
 
-type FieldKey = "arz" | "reed" | "pick" | "count" | "onePoundDhagaRate";
+type FieldKey =
+  | "arz"
+  | "reed"
+  | "reedTaarParti"
+  | "pick"
+  | "count"
+  | "onePoundDhagaRate";
 
 const fields: { key: FieldKey; labelUrdu: string; labelEnglish: string }[] = [
   { key: "arz", labelUrdu: "عرض", labelEnglish: "Width" },
   { key: "reed", labelUrdu: "ریڈ", labelEnglish: "Reed" },
+  { key: "reedTaarParti", labelUrdu: "ریڈ تار پرتی", labelEnglish: "Reed Taar Parti" },
   { key: "pick", labelUrdu: "پک", labelEnglish: "Pick" },
   { key: "count", labelUrdu: "کاؤنٹ", labelEnglish: "Count" },
   { key: "onePoundDhagaRate", labelUrdu: "1 پاؤنڈ دھاگے کا ریٹ", labelEnglish: "1 Pound Dhaga Rate" },
@@ -24,9 +31,9 @@ type CalcResult = {
 };
 
 function calculate(values: Record<FieldKey, number>): CalcResult {
-  const { arz, reed, pick, count, onePoundDhagaRate } = values;
+  const { arz, reed, reedTaarParti, pick, count, onePoundDhagaRate } = values;
 
-  const taar = arz * reed;
+  const taar = reed * arz + reedTaarParti;
   const yarnWeight = ((pick * arz + taar) * 1.0936) / (20 * count * 40);
   const dhagaRate = yarnWeight * onePoundDhagaRate;
 
@@ -37,29 +44,63 @@ function fmt(n: number): string {
   return Number.isFinite(n) ? n.toFixed(2) : "—";
 }
 
-const initialValues: Record<FieldKey, number> = {
-  arz: 0,
-  reed: 0,
-  pick: 0,
-  count: 0,
-  onePoundDhagaRate: 0,
+const initialValues: Record<FieldKey, string> = {
+  arz: "",
+  reed: "",
+  reedTaarParti: "",
+  pick: "",
+  count: "",
+  onePoundDhagaRate: "",
+};
+
+const initialErrors: Record<FieldKey, boolean> = {
+  arz: false,
+  reed: false,
+  reedTaarParti: false,
+  pick: false,
+  count: false,
+  onePoundDhagaRate: false,
 };
 
 export default function Home() {
-  const [values, setValues] = useState<Record<FieldKey, number>>(initialValues);
+  const [values, setValues] = useState<Record<FieldKey, string>>(initialValues);
+  const [errors, setErrors] = useState<Record<FieldKey, boolean>>(initialErrors);
   const [result, setResult] = useState<CalcResult | null>(null);
 
   function handleChange(key: FieldKey, raw: string) {
-    setValues((prev) => ({ ...prev, [key]: Number(raw) }));
+    setValues((prev) => ({ ...prev, [key]: raw }));
+    if (errors[key] && raw.trim() !== "") {
+      setErrors((prev) => ({ ...prev, [key]: false }));
+    }
   }
 
   function handleClear() {
     setValues(initialValues);
+    setErrors(initialErrors);
     setResult(null);
   }
 
   function handleCalculate() {
-    setResult(calculate(values));
+    const newErrors = { ...initialErrors };
+    let hasError = false;
+    for (const field of fields) {
+      if (values[field.key].trim() === "") {
+        newErrors[field.key] = true;
+        hasError = true;
+      }
+    }
+    setErrors(newErrors);
+
+    if (hasError) {
+      setResult(null);
+      return;
+    }
+
+    const numericValues = Object.fromEntries(
+      fields.map((f) => [f.key, Number(values[f.key])])
+    ) as Record<FieldKey, number>;
+
+    setResult(calculate(numericValues));
   }
 
   return (
@@ -99,6 +140,7 @@ export default function Home() {
                     style={{ fontFamily: "var(--font-urdu)" }}
                   >
                     {field.labelUrdu}
+                    <span className="ms-1 text-red-500">*</span>
                   </span>
                   <span
                     dir="ltr"
@@ -112,11 +154,24 @@ export default function Home() {
                   type="number"
                   dir="ltr"
                   inputMode="decimal"
-                  value={values[field.key] || ""}
+                  value={values[field.key]}
                   onChange={(e) => handleChange(field.key, e.target.value)}
-                  className="w-full rounded-2xl border border-neutral-200 bg-neutral-50 px-4 py-3 text-lg font-bold text-neutral-900 placeholder-neutral-300 outline-none transition-all focus:border-amber-500 focus:bg-white focus:ring-4 focus:ring-amber-500/10"
+                  className={`w-full rounded-2xl border px-4 py-3 text-lg font-bold text-neutral-900 placeholder-neutral-300 outline-none transition-all focus:ring-4 ${
+                    errors[field.key]
+                      ? "border-red-400 bg-red-50 focus:border-red-500 focus:ring-red-500/10"
+                      : "border-neutral-200 bg-neutral-50 focus:border-amber-500 focus:bg-white focus:ring-amber-500/10"
+                  }`}
                   placeholder="0"
                 />
+                {errors[field.key] && (
+                  <p
+                    dir="rtl"
+                    className="mt-1 text-xs font-bold text-red-500"
+                    style={{ fontFamily: "var(--font-urdu)" }}
+                  >
+                    براہ کرم یہ خانہ پُر کریں
+                  </p>
+                )}
               </div>
             ))}
 

@@ -8,7 +8,7 @@ A 3-step chained calculation — each step's result feeds into the next.
 Evaluated **left-to-right, calculator-style (not BODMAS)**:
 
 ```
-Step 1 — Taar        = Arz × Reed
+Step 1 — Taar        = Reed × Arz + Reed Taar Parti
 
 Step 2 — Yarn Weight = (Pick × Arz + Taar) × 1.0936 / (20 × Count × 40)
                         → in Pound
@@ -17,15 +17,20 @@ Step 3 — Dhaga Rate  = Yarn Weight × (1 Pound Dhaga Rate)
                         → final answer
 ```
 
-### Inputs (shown on the UI in this order)
+### Inputs (shown on the UI in this order, all required)
 
 | Field | Urdu Label |
 |---|---|
 | Arz (Width) | عرض |
 | Reed | ریڈ |
+| Reed Taar Parti | ریڈ تار پرتی |
 | Pick | پک |
 | Count | کاؤنٹ |
 | 1 Pound Dhaga Rate | 1 پاؤنڈ دھاگے کا ریٹ |
+
+Every field is marked required (red asterisk). Clicking Calculate with any field
+empty highlights it in red with an Urdu message ("براہ کرم یہ خانہ پُر کریں")
+instead of running the calculation.
 
 ### Outputs (all 3 shown on the UI)
 
