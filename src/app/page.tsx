@@ -166,7 +166,7 @@ export default function Home() {
                 {errors[field.key] && (
                   <p
                     dir="rtl"
-                    className="mt-1 text-xs font-bold text-red-500"
+                    className="mt-1 text-[10px] font-bold text-red-500"
                     style={{ fontFamily: "var(--font-urdu)" }}
                   >
                     براہ کرم یہ خانہ پُر کریں
