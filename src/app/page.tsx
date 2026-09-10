@@ -119,9 +119,6 @@ export default function Home() {
             >
               تانا بانا کیلکولیٹر
             </h1>
-            <p className="mt-1 text-[11px] font-bold uppercase tracking-[0.2em] text-amber-600">
-              Yarn Calculator
-            </p>
           </div>
 
           <div className="h-px bg-neutral-100" />
