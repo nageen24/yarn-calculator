@@ -11,7 +11,7 @@ type FieldKey = "pick" | "bar" | "count" | "dhagaRate";
 
 const fields: { key: FieldKey; labelUrdu: string; labelEnglish: string }[] = [
   { key: "pick", labelUrdu: "پک", labelEnglish: "Pick" },
-  { key: "bar", labelUrdu: "بار", labelEnglish: "Bar" },
+  { key: "bar", labelUrdu: "بر", labelEnglish: "Bar" },
   { key: "count", labelUrdu: "کاؤنٹ", labelEnglish: "Count" },
   { key: "dhagaRate", labelUrdu: "دھاگے کا ریٹ", labelEnglish: "Dhaga Rate" },
 ];
