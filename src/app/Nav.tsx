@@ -7,6 +7,7 @@ import { usePathname } from "next/navigation";
 const pages = [
   { href: "/", labelUrdu: "تانا بانا کیلکولیٹر" },
   { href: "/tana-calculator", labelUrdu: "تانا کیلکولیٹر" },
+  { href: "/bana-calculator", labelUrdu: "بانا کیلکولیٹر" },
 ];
 
 export default function Nav() {

@@ -2,36 +2,32 @@
 
 import { useState } from "react";
 
-// Independent from the home page calculator — own fields, own formula.
-// 3-step chained formula (left-to-right, calculator-style — not BODMAS):
-// Step 1: Taar       = Reed * (Arz + Reed Taar Parti)
-// Step 2: Tana Wazan = ((Taar * 1.0936) / (20 * Count)) / 40
-// Step 3: Tana Rate  = Tana Wazan * Dhaga Rate                [final answer]
+// Independent from the other calculators — own fields, own formula.
+// 2-step chained formula (left-to-right, calculator-style — not BODMAS):
+// Step 1: Bana Wazan = ((Pick * Bar * 1.0936) / (20 * Count)) / 40
+// Step 2: Bana Rate  = Bana Wazan * Dhaga Rate                    [final answer]
 
-type FieldKey = "reed" | "arz" | "reedTaarParti" | "count" | "dhagaRate";
+type FieldKey = "pick" | "bar" | "count" | "dhagaRate";
 
 const fields: { key: FieldKey; labelUrdu: string; labelEnglish: string }[] = [
-  { key: "reed", labelUrdu: "ریڈ", labelEnglish: "Reed" },
-  { key: "arz", labelUrdu: "عرض", labelEnglish: "Width" },
-  { key: "reedTaarParti", labelUrdu: "ریڈ تار پرتی", labelEnglish: "Reed Taar Parti" },
+  { key: "pick", labelUrdu: "پک", labelEnglish: "Pick" },
+  { key: "bar", labelUrdu: "بار", labelEnglish: "Bar" },
   { key: "count", labelUrdu: "کاؤنٹ", labelEnglish: "Count" },
   { key: "dhagaRate", labelUrdu: "دھاگے کا ریٹ", labelEnglish: "Dhaga Rate" },
 ];
 
 type CalcResult = {
-  taar: number;
-  tanaWazan: number;
-  tanaRate: number;
+  banaWazan: number;
+  banaRate: number;
 };
 
 function calculate(values: Record<FieldKey, number>): CalcResult {
-  const { reed, arz, reedTaarParti, count, dhagaRate } = values;
+  const { pick, bar, count, dhagaRate } = values;
 
-  const taar = reed * (arz + reedTaarParti);
-  const tanaWazan = (taar * 1.0936) / (20 * count) / 40;
-  const tanaRate = tanaWazan * dhagaRate;
+  const banaWazan = (pick * bar * 1.0936) / (20 * count) / 40;
+  const banaRate = banaWazan * dhagaRate;
 
-  return { taar, tanaWazan, tanaRate };
+  return { banaWazan, banaRate };
 }
 
 function fmt(n: number): string {
@@ -39,22 +35,20 @@ function fmt(n: number): string {
 }
 
 const initialValues: Record<FieldKey, string> = {
-  reed: "",
-  arz: "",
-  reedTaarParti: "",
+  pick: "",
+  bar: "",
   count: "",
   dhagaRate: "",
 };
 
 const initialErrors: Record<FieldKey, boolean> = {
-  reed: false,
-  arz: false,
-  reedTaarParti: false,
+  pick: false,
+  bar: false,
   count: false,
   dhagaRate: false,
 };
 
-export default function TanaCalculatorPage() {
+export default function BanaCalculatorPage() {
   const [values, setValues] = useState<Record<FieldKey, string>>(initialValues);
   const [errors, setErrors] = useState<Record<FieldKey, boolean>>(initialErrors);
   const [result, setResult] = useState<CalcResult | null>(null);
@@ -102,14 +96,14 @@ export default function TanaCalculatorPage() {
           {/* Header */}
           <div className="flex flex-col items-center px-8 pt-9 pb-7">
             <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-amber-50 text-2xl ring-1 ring-amber-100">
-              🧮
+              🧶
             </div>
             <h1
               dir="rtl"
               className="text-[1.7rem] font-extrabold leading-tight text-neutral-900"
               style={{ fontFamily: "var(--font-urdu)" }}
             >
-              تانا کیلکولیٹر
+              بانا کیلکولیٹر
             </h1>
           </div>
 
@@ -186,30 +180,18 @@ export default function TanaCalculatorPage() {
                   نتائج
                 </span>
 
-                {/* Intermediate steps — receipt style */}
+                {/* Intermediate step — receipt style */}
                 <div className="rounded-2xl bg-neutral-50 px-5 py-1 ring-1 ring-neutral-100">
-                  <div className="flex items-center justify-between border-b border-dashed border-neutral-200 py-3">
-                    <span
-                      dir="rtl"
-                      className="text-sm font-bold text-neutral-500"
-                      style={{ fontFamily: "var(--font-urdu)" }}
-                    >
-                      تار
-                    </span>
-                    <span className="text-base font-bold text-neutral-700">
-                      {fmt(result.taar)}
-                    </span>
-                  </div>
                   <div className="flex items-center justify-between py-3">
                     <span
                       dir="rtl"
                       className="text-sm font-bold text-neutral-500"
                       style={{ fontFamily: "var(--font-urdu)" }}
                     >
-                      تانا وزن
+                      بانا وزن
                     </span>
                     <span className="text-base font-bold text-neutral-700">
-                      {fmt(result.tanaWazan)}
+                      {fmt(result.banaWazan)}
                     </span>
                   </div>
                 </div>
@@ -221,10 +203,10 @@ export default function TanaCalculatorPage() {
                     className="mb-1.5 text-[11px] font-bold uppercase tracking-[0.2em] text-amber-400"
                     style={{ fontFamily: "var(--font-urdu)" }}
                   >
-                    تانا ریٹ
+                    بانا ریٹ
                   </div>
                   <div className="text-4xl font-extrabold tracking-tight text-white">
-                    {fmt(result.tanaRate)}{" "}
+                    {fmt(result.banaRate)}{" "}
                     <span
                       dir="rtl"
                       className="text-lg font-semibold text-neutral-400"
